@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    stateForCompose()
+                    listOfNames(returnListOfNames())
                 }
             }
         }
@@ -91,6 +93,29 @@ fun stateForCompose() {
             Text(text = "Reset count value")
         }
     }
+}
+
+@Composable
+fun listOfNames(names : List<String> = emptyList()) {
+    if(names.isEmpty()) {
+        Text(
+            text = "Sorry the list is empty!",
+            modifier = Modifier.padding(16.dp)
+            )
+    }else {
+        LazyColumn() {
+            items(items = names) { name ->
+                Text(
+                    text = "The names is : $name",
+                    modifier = Modifier.padding(8.dp).fillMaxWidth().clickable {  }
+                )
+            }
+        }
+    }
+}
+
+fun returnListOfNames() = List<String>(50) {
+    "Name$it"
 }
 
 @Preview(showBackground = true)
