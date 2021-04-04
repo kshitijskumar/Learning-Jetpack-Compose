@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +26,7 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    NewsStory()
+                    stateForCompose()
                 }
             }
         }
@@ -43,9 +45,13 @@ fun NewsStory() {
                 .fillMaxWidth()
                 .clickable { } // ignoring click for now
         )
-        Spacer(modifier = Modifier.height(24.dp).fillMaxWidth()) // acts as a space between two components
+        Spacer(modifier = Modifier
+            .height(24.dp)
+            .fillMaxWidth()) // acts as a space between two components
         Text(text = "This is string 1", fontWeight = FontWeight.ExtraBold)
-        Spacer(modifier = Modifier.height(12.dp).fillMaxWidth())
+        Spacer(modifier = Modifier
+            .height(12.dp)
+            .fillMaxWidth())
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
@@ -56,10 +62,37 @@ fun NewsStory() {
     }
 }
 
+@Composable
+fun stateForCompose() {
+    val count = remember {
+        mutableStateOf(0)
+    }
+
+    Column {
+        Button(
+            onClick = { count.value++ },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "This button was clicked ${count.value} times")
+        }
+
+        Divider(modifier = Modifier
+            .height(24.dp)
+            .fillMaxWidth(), color = colorResource(id = R.color.black))
+
+        Button(
+            onClick = { count.value = 0 },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Reset count value")
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-        NewsStory()
+        stateForCompose()
     }
 }
