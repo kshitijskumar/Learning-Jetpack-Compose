@@ -71,7 +71,11 @@ fun stateForCompose() {
     Column {
         Button(
             onClick = { count.value++ },
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            colors = ButtonDefaults.buttonColors(   //to change button color or type we use something like this
+                backgroundColor = if(count.value % 2 == 0) Color.Blue else Color.Cyan,
+                contentColor = if(count.value % 2 == 0) Color.White else Color.Black    //this changes color of text
+            )
         ) {
             Text(text = "This button was clicked ${count.value} times")
         }
